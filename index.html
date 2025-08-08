@@ -1,140 +1,65 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Uber Eats Clone</title>
-
-  <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"/>
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
-  <!-- ========== HEADER ========== -->
-  <header class="header">
-    <div class="container header__inner">
-      <h1 class="logo">Uber&nbsp;Eats</h1>
-
-      <div class="search">
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Search restaurants..."
-          aria-label="Search restaurants"
-        />
-      </div>
-
-      <button id="cartBtn" class="cart-btn" aria-label="Open cart">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cartCount" class="cart-count">0</span>
-      </button>
-
-      <!-- Mobile hamburger -->
-      <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
-        <i class="fas fa-bars"></i>
-      </button>
+  <!-- Header -->
+  <header>
+    <div class="logo">🍔 UberEats</div>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search for restaurants or food" />
+      <i class="fas fa-search"></i>
+    </div>
+    <div class="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCount">0</span>
     </div>
   </header>
 
-  <!-- ========== HERO ========== -->
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="hero__overlay">
-      <h2 class="hero__title">Order food to your door</h2>
-      <p class="hero__subtitle">Faster than you can say “extra cheese”.</p>
+    <div class="hero-text">
+      <h1>Your favorites, delivered</h1>
+      <p>Enter your address to start ordering</p>
+      <input type="text" placeholder="Enter delivery address..." />
     </div>
   </section>
 
-  <!-- ========== MAIN ========== -->
-  <main class="main container">
-    <!-- Filter buttons -->
-    <div id="categoryFilters" class="filters">
-      <button class="filter-btn active" data-category="all">All</button>
-      <button class="filter-btn" data-category="Pizza">Pizza</button>
-      <button class="filter-btn" data-category="Burgers">Burgers</button>
-      <button class="filter-btn" data-category="Asian">Asian</button>
-      <button class="filter-btn" data-category="Dessert">Dessert</button>
-    </div>
+  <!-- Category Filters -->
+  <nav class="category-filter">
+    <button class="category-btn" data-category="All">All</button>
+    <button class="category-btn" data-category="Pizza">Pizza</button>
+    <button class="category-btn" data-category="Burgers">Burgers</button>
+    <button class="category-btn" data-category="Asian">Asian</button>
+    <button class="category-btn" data-category="Dessert">Dessert</button>
+  </nav>
 
-    <!-- Restaurant grid -->
-    <div id="restaurantList" class="restaurant-grid">
-      <!-- Skeleton loaders -->
-      <div class="skeleton"></div>
-      <div class="skeleton"></div>
-      <div class="skeleton"></div>
-    </div>
+  <!-- Restaurant Grid -->
+  <section id="restaurantGrid" class="restaurant-grid">
+    <!-- Restaurants will be injected via JS -->
+  </section>
 
-    <!-- Menu modal -->
-    <div id="menuModal" class="modal" aria-hidden="true">
-      <div class="modal__content">
-        <button id="closeMenu" class="modal__close" aria-label="Close menu">
-          <i class="fas fa-times"></i>
-        </button>
-        <div id="menuContent" class="menu-content"></div>
-      </div>
+  <!-- Cart Modal -->
+  <div id="cartModal" class="cart-modal hidden">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div id="cartSummary">
+      <p>Subtotal: <span id="subtotal">KSH 0</span></p>
+      <p>Delivery: <span id="deliveryFee">KSH 100</span></p>
+      <p><strong>Total: <span id="total">KSH 0</span></strong></p>
     </div>
-  </main>
-
-  <!-- ========== CART ========== -->
-  <aside id="cartSidebar" class="cart-sidebar" aria-hidden="true">
-    <div class="cart-sidebar__header">
-      <h2>Your Cart</h2>
-      <button id="closeCart" class="cart-sidebar__close">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div id="cartItems" class="cart-items"></div>
-    <div class="cart-sidebar__footer">
-      <div id="cartTotals" class="cart-totals">
-        <!-- Subtotal, tax, delivery, total -->
-      </div>
-      <button id="checkoutBtn" class="btn btn--primary">Checkout</button>
-    </div>
-  </aside>
-
-  <!-- ========== CHECKOUT MODAL ========== -->
-  <div id="checkoutModal" class="modal--fullscreen" aria-hidden="true">
-    <div class="modal__content">
-      <button id="closeCheckout" class="modal__close">
-        <i class="fas fa-times"></i>
-      </button>
-      <h2>Checkout</h2>
-      <form id="checkoutForm" novalidate>
-        <label>
-          Name
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Address
-          <input type="text" name="address" required />
-        </label>
-        <label>
-          Phone
-          <input type="tel" name="phone" required pattern="[0-9+ -]{7,15}"/>
-        </label>
-        <button type="submit" class="btn btn--primary">Place Order</button>
-      </form>
-    </div>
+    <button id="checkoutBtn">Checkout</button>
+    <button id="closeCartBtn" class="close-btn">Close</button>
   </div>
 
-  <!-- ========== ORDER STATUS ========== -->
-  <div id="orderStatus" class="order-status" aria-hidden="true">
-    <h2>Order Confirmed 🎉</h2>
-    <p id="orderId"></p>
-    <div class="order-status__steps">
-      <div class="step active" data-step="preparing">Preparing</div>
-      <div class="step" data-step="onTheWay">On the way</div>
-      <div class="step" data-step="delivered">Delivered</div>
-    </div>
-    <button id="closeStatus" class="btn">Close</button>
-  </div>
-
-  <!-- Scripts -->
-  <script src="script.js" defer></script>
+  <!-- Overlay for modals -->
+  <div id="overlay" class="overlay hidden"></div>
 </body>
 </html>

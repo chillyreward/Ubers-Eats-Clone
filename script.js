@@ -1,316 +1,254 @@
-/* =========================================================
-   Uber Eats Clone – Pure Front-End
-   ========================================================= */
+// script.js
 
-(() => {
-  /* ---------- MOCK DATA ---------- */
-  const restaurants = [
-    {
-      id: 1,
-      name: 'Pizza Palace',
-      cuisine: 'Pizza',
-      rating: 4.7,
-      deliveryTime: '25–35 min',
-      deliveryFee: 2.99,
-      image: 'https://picsum.photos/seed/pizza/600/400',
-      menu: [
-        { category: 'Pizza', name: 'Margherita', price: 9.99, description: 'Fresh mozzarella & basil', image: 'https://picsum.photos/seed/marg/200/200' },
-        { category: 'Pizza', name: 'Pepperoni', price: 11.99, description: 'Classic pepperoni', image: 'https://picsum.photos/seed/pep/200/200' },
-        { category: 'Drinks', name: 'Cola', price: 1.99, description: '330ml can', image: 'https://picsum.photos/seed/cola/200/200' }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Burger Barn',
-      cuisine: 'Burgers',
-      rating: 4.5,
-      deliveryTime: '20–30 min',
-      deliveryFee: 1.99,
-      image: 'https://picsum.photos/seed/burger/600/400',
-      menu: [
-        { category: 'Burgers', name: 'Classic Cheese', price: 8.49, description: 'Beef patty, cheese, lettuce', image: 'https://picsum.photos/seed/cheese/200/200' },
-        { category: 'Burgers', name: 'BBQ Bacon', price: 9.99, description: 'Bacon, BBQ sauce, onion rings', image: 'https://picsum.photos/seed/bbq/200/200' },
-        { category: 'Sides', name: 'Fries', price: 2.99, description: 'Crispy golden fries', image: 'https://picsum.photos/seed/fries/200/200' }
-      ]
-    },
-    /* Add 13 more restaurants to reach 15 */
-    ...Array.from({ length: 13 }, (_, i) => ({
-      id: i + 3,
-      name: `Restaurant ${i + 3}`,
-      cuisine: ['Asian', 'Dessert', 'Healthy'][i % 3],
-      rating: (4 + Math.random()).toFixed(1),
-      deliveryTime: `${20 + i % 3 * 5}-${30 + i % 3 * 10} min`,
-      deliveryFee: (1.5 + i * 0.2).toFixed(2),
-      image: `https://picsum.photos/seed/r${i}/600/400`,
-      menu: Array.from({ length: 5 }, (__, j) => ({
-        category: ['Mains', 'Sides', 'Drinks'][j % 3],
-        name: `Item ${j + 1}`,
-        price: (5 + j * 1.5).toFixed(2),
-        description: 'Delicious dish',
-        image: `https://picsum.photos/seed/item${j}/200/200`
-      }))
-    }))
-  ];
+// ----------- Mock Data -----------
+const restaurants = [
+  {
+    id: 1,
+    name: "Pizza Palace",
+    category: "Pizza",
+    cuisine: "Italian",
+    rating: 4.5,
+    deliveryTime: "30-40 min",
+    image: "https://images.unsplash.com/photo-1601924582975-7e34c3ba1b0e" // Pizza
+  },
+  {
+    id: 2,
+    name: "Burger Bros",
+    category: "Burgers",
+    cuisine: "American",
+    rating: 4.3,
+    deliveryTime: "25-35 min",
+    image: "https://images.unsplash.com/photo-1550547660-d9450f859349" // Burger
+  },
+  {
+    id: 3,
+    name: "Dragon Wok",
+    category: "Asian",
+    cuisine: "Chinese",
+    rating: 4.7,
+    deliveryTime: "20-30 min",
+    image: "https://images.unsplash.com/photo-1600628422012-51ab6d9fd3a2" // Noodles
+  },
+  {
+    id: 4,
+    name: "Sweet Treats",
+    category: "Dessert",
+    cuisine: "Bakery",
+    rating: 4.8,
+    deliveryTime: "15-25 min",
+    image: "https://images.unsplash.com/photo-1606813902872-5f1e5df32755" // Desserts
+  },
+  {
+    id: 5,
+    name: "Taco Town",
+    category: "Tacos",
+    cuisine: "Mexican",
+    rating: 4.4,
+    deliveryTime: "20-30 min",
+    image: "https://images.unsplash.com/photo-1601924579530-c5ad8e23f52c" // Tacos
+  },
+  {
+    id: 6,
+    name: "Curry Express",
+    category: "Asian",
+    cuisine: "Indian",
+    rating: 4.6,
+    deliveryTime: "30-40 min",
+    image: "https://images.unsplash.com/photo-1605470657576-0efc1c4190a7" // Curry
+  },
+  {
+    id: 7,
+    name: "Sushi World",
+    category: "Asian",
+    cuisine: "Japanese",
+    rating: 4.9,
+    deliveryTime: "25-35 min",
+    image: "https://images.unsplash.com/photo-1562158070-622a1ff18a89" // Sushi
+  },
+  {
+    id: 8,
+    name: "Grill House",
+    category: "Burgers",
+    cuisine: "Grill",
+    rating: 4.2,
+    deliveryTime: "30-40 min",
+    image: "https://images.unsplash.com/photo-1612197524266-b681bfb01ea5" // Grilled meat
+  },
+  {
+    id: 9,
+    name: "Healthy Bowl",
+    category: "Healthy",
+    cuisine: "Salads",
+    rating: 4.3,
+    deliveryTime: "20-25 min",
+    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994" // Salad
+  },
+  {
+    id: 10,
+    name: "Pasta Point",
+    category: "Pasta",
+    cuisine: "Italian",
+    rating: 4.4,
+    deliveryTime: "25-35 min",
+    image: "https://images.unsplash.com/photo-1625941210159-43d11d1b8d7f" // Pasta
+  },
+  {
+    id: 11,
+    name: "Falafel Joint",
+    category: "Wraps",
+    cuisine: "Middle Eastern",
+    rating: 4.1,
+    deliveryTime: "20-30 min",
+    image: "https://images.unsplash.com/photo-1625941210532-2b3d8f9324cf" // Falafel
+  },
+  {
+    id: 12,
+    name: "Crepe Kingdom",
+    category: "Dessert",
+    cuisine: "French",
+    rating: 4.6,
+    deliveryTime: "20-25 min",
+    image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb" // Crepes
+  },
+  {
+    id: 13,
+    name: "Donut Drive",
+    category: "Dessert",
+    cuisine: "Bakery",
+    rating: 4.5,
+    deliveryTime: "15-20 min",
+    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587" // Donuts
+  },
+  {
+    id: 14,
+    name: "BBQ Pit",
+    category: "Grill",
+    cuisine: "American",
+    rating: 4.7,
+    deliveryTime: "30-45 min",
+    image: "https://images.unsplash.com/photo-1601924757063-25fc25fc4e94" // BBQ
+  },
+  {
+    id: 15,
+    name: "Noodle Nest",
+    category: "Asian",
+    cuisine: "Thai",
+    rating: 4.4,
+    deliveryTime: "25-35 min",
+    image: "https://images.unsplash.com/photo-1617196032283-7203b7971b54" // Thai noodles
+  }
+];
 
-  /* ---------- STATE ---------- */
-  let cart = JSON.parse(localStorage.getItem('ueCart') || '[]');
-  let activeRestaurant = null;
-  let orderHistory = JSON.parse(localStorage.getItem('ueOrders') || '[]');
+// ----------- Global State -----------
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let filteredRestaurants = [...restaurants];
 
-  /* ---------- DOM ---------- */
-  const qs = (sel, ctx = document) => ctx.querySelector(sel);
-  const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+// ----------- DOM References -----------
+const restaurantGrid = document.getElementById("restaurantGrid");
+const searchInput = document.getElementById("searchInput");
+const cartCount = document.getElementById("cartCount");
+const cartModal = document.getElementById("cartModal");
+const overlay = document.getElementById("overlay");
+const cartItems = document.getElementById("cartItems");
+const subtotalEl = document.getElementById("subtotal");
+const totalEl = document.getElementById("total");
 
-  const restaurantList = qs('#restaurantList');
-  const searchInput = qs('#searchInput');
-  const categoryFilters = qs('#categoryFilters');
-  const cartBtn = qs('#cartBtn');
-  const cartSidebar = qs('#cartSidebar');
-  const closeCart = qs('#closeCart');
-  const cartItems = qs('#cartItems');
-  const cartTotals = qs('#cartTotals');
-  const checkoutBtn = qs('#checkoutBtn');
-  const menuModal = qs('#menuModal');
-  const closeMenu = qs('#closeMenu');
-  const menuContent = qs('#menuContent');
-  const checkoutModal = qs('#checkoutModal');
-  const closeCheckout = qs('#closeCheckout');
-  const checkoutForm = qs('#checkoutForm');
-  const orderStatus = qs('#orderStatus');
-  const closeStatus = qs('#closeStatus');
-
-  /* ---------- UTILS ---------- */
-  const saveCart = () => localStorage.setItem('ueCart', JSON.stringify(cart));
-  const renderCartCount = () => {
-    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    qs('#cartCount').textContent = count;
-  };
-  const formatPrice = p => `$${Number(p).toFixed(2)}`;
-
-  /* ---------- RESTAURANT RENDER ---------- */
-  const createRestaurantCard = r => {
-    const card = document.createElement('div');
-    card.className = 'card';
+// ----------- Render Restaurants -----------
+function renderRestaurants(data) {
+  restaurantGrid.innerHTML = "";
+  data.forEach((restaurant) => {
+    const card = document.createElement("div");
+    card.classList.add("restaurant-card");
     card.innerHTML = `
-      <img class="card__img" src="${r.image}" alt="${r.name}" loading="lazy"/>
-      <div class="card__body">
-        <h3 class="card__title">${r.name}</h3>
-        <div class="card__meta">
-          <span>${r.cuisine}</span>
-          <span>★ ${r.rating}</span>
-          <span>${r.deliveryTime}</span>
-          <span>${formatPrice(r.deliveryFee)} delivery</span>
-        </div>
+      <img src="${restaurant.image}" alt="${restaurant.name}" />
+      <div class="restaurant-info">
+        <h3>${restaurant.name}</h3>
+        <p>${restaurant.cuisine} • ${restaurant.rating} ★ • ${restaurant.deliveryTime}</p>
+        <button onclick="addToCart(${restaurant.id})">+ Add</button>
       </div>
     `;
-    card.addEventListener('click', () => openMenu(r));
-    return card;
-  };
+    restaurantGrid.appendChild(card);
+  });
+}
 
-  const renderRestaurants = (list = restaurants) => {
-    restaurantList.innerHTML = '';
-    list.forEach(r => restaurantList.appendChild(createRestaurantCard(r)));
-  };
+// ----------- Add to Cart -----------
+function addToCart(id) {
+  const item = restaurants.find((r) => r.id === id);
+  const exists = cart.find((i) => i.id === id);
+  if (exists) {
+    exists.qty += 1;
+  } else {
+    cart.push({ ...item, qty: 1 });
+  }
+  updateCart();
+}
 
-  /* ---------- FILTER & SEARCH ---------- */
-  const filterByCategory = category => {
-    let filtered = restaurants;
-    if (category !== 'all') filtered = restaurants.filter(r => r.cuisine === category);
-    renderRestaurants(filtered);
-  };
+// ----------- Update Cart UI -----------
+function updateCart() {
+  cartItems.innerHTML = "";
+  let subtotal = 0;
 
-  const debounce = (fn, ms) => {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), ms);
-    };
-  };
-
-  const handleSearch = debounce(term => {
-    const lower = term.toLowerCase();
-    const filtered = restaurants.filter(r =>
-      r.name.toLowerCase().includes(lower) ||
-      r.cuisine.toLowerCase().includes(lower)
-    );
-    renderRestaurants(filtered);
-  }, 300);
-
-  /* ---------- MENU ---------- */
-  const openMenu = restaurant => {
-    activeRestaurant = restaurant;
-    menuContent.innerHTML = '';
-    const grouped = restaurant.menu.reduce((acc, item) => {
-      (acc[item.category] ||= []).push(item);
-      return acc;
-    }, {});
-
-    Object.entries(grouped).forEach(([cat, items]) => {
-      const section = document.createElement('div');
-      section.className = 'menu-category';
-      section.innerHTML = `<h3>${cat}</h3>`;
-      items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'menu-item';
-        div.innerHTML = `
-          <img class="menu-item__img" src="${item.image}" alt="${item.name}"/>
-          <div class="menu-item__body">
-            <h4>${item.name}</h4>
-            <p>${item.description}</p>
-            <p class="menu-item__price">${formatPrice(item.price)}</p>
-            <div class="quantity-controls">
-              <button data-action="decrease" data-id="${item.name}">-</button>
-              <span>0</span>
-              <button data-action="increase" data-id="${item.name}">+</button>
-            </div>
-          </div>
-        `;
-        const [dec, qty, inc] = qsa('button, span', div);
-        const updateQty = () => {
-          const inCart = cart.find(i => i.name === item.name);
-          qty.textContent = inCart ? inCart.quantity : 0;
-        };
-        updateQty();
-        dec.addEventListener('click', () => changeCart(item, -1, updateQty));
-        inc.addEventListener('click', () => changeCart(item, 1, updateQty));
-        section.appendChild(div);
-      });
-      menuContent.appendChild(section);
-    });
-    menuModal.setAttribute('aria-hidden', 'false');
-  };
-
-  const closeMenuModal = () => menuModal.setAttribute('aria-hidden', 'true');
-
-  /* ---------- CART ---------- */
-  const changeCart = (item, delta, cb) => {
-    const existing = cart.find(i => i.name === item.name);
-    if (existing) {
-      existing.quantity += delta;
-      if (existing.quantity <= 0) cart = cart.filter(i => i !== existing);
-    } else if (delta > 0) {
-      cart.push({ ...item, quantity: 1 });
-    }
-    saveCart();
-    renderCartCount();
-    if (cb) cb();
-    renderCart();
-  };
-
-  const renderCart = () => {
-    cartItems.innerHTML = '';
-    if (!cart.length) {
-      cartItems.innerHTML = '<p>Your cart is empty</p>';
-      cartTotals.innerHTML = '';
-      return;
-    }
-    cart.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <img class="cart-item__img" src="${item.image}" alt="${item.name}"/>
-        <div>
-          <h4>${item.name}</h4>
-          <p>${formatPrice(item.price)} &times; ${item.quantity}</p>
-          <button class="btn--text" data-remove="${item.name}">Remove</button>
-        </div>
-      `;
-      qs('[data-remove]', div).addEventListener('click', () => {
-        changeCart(item, -item.quantity);
-      });
-      cartItems.appendChild(div);
-    });
-
-    const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-    const tax = subtotal * 0.08;
-    const delivery = activeRestaurant ? activeRestaurant.deliveryFee : 2.99;
-    const total = subtotal + tax + delivery;
-
-    cartTotals.innerHTML = `
-      <p><span>Subtotal</span> <span>${formatPrice(subtotal)}</span></p>
-      <p><span>Tax</span> <span>${formatPrice(tax)}</span></p>
-      <p><span>Delivery</span> <span>${formatPrice(delivery)}</span></p>
-      <p><strong><span>Total</span> <span>${formatPrice(total)}</span></strong></p>
+  cart.forEach((item) => {
+    subtotal += item.qty * 500; // Assume fixed price
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+    div.innerHTML = `
+      <span>${item.name} x${item.qty}</span>
+      <span>KSH ${item.qty * 500}</span>
     `;
-  };
+    cartItems.appendChild(div);
+  });
 
-  const toggleCart = () => {
-    const hidden = cartSidebar.getAttribute('aria-hidden') !== 'false';
-    cartSidebar.setAttribute('aria-hidden', String(!hidden));
-    if (!hidden) renderCart();
-  };
+  subtotalEl.textContent = `KSH ${subtotal}`;
+  const delivery = 100;
+  totalEl.textContent = `KSH ${subtotal + delivery}`;
+  cartCount.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
-  /* ---------- CHECKOUT ---------- */
-  const openCheckout = () => {
-    cartSidebar.setAttribute('aria-hidden', 'true');
-    checkoutModal.setAttribute('aria-hidden', 'false');
-  };
-  const closeCheckoutModal = () => checkoutModal.setAttribute('aria-hidden', 'true');
+// ----------- Toggle Cart Modal -----------
+document.querySelector(".cart-icon").addEventListener("click", () => {
+  cartModal.classList.add("visible");
+  overlay.classList.add("visible");
+  updateCart();
+});
 
-  const placeOrder = e => {
-    e.preventDefault();
-    const form = e.target;
-    const data = Object.fromEntries(new FormData(form));
-    const order = {
-      id: Date.now(),
-      items: [...cart],
-      customer: data,
-      total: cart.reduce((s, i) => s + i.price * i.quantity, 0) * 1.08 + 2.99,
-      placedAt: new Date().toLocaleString()
-    };
-    orderHistory.unshift(order);
-    localStorage.setItem('ueOrders', JSON.stringify(orderHistory));
-    cart = [];
-    saveCart();
-    renderCartCount();
-    closeCheckoutModal();
-    showOrderStatus(order.id);
-  };
+document.getElementById("closeCartBtn").addEventListener("click", () => {
+  cartModal.classList.remove("visible");
+  overlay.classList.remove("visible");
+});
 
-  const showOrderStatus = id => {
-    qs('#orderId').textContent = `Order #${id}`;
-    orderStatus.setAttribute('aria-hidden', 'false');
-    let step = 0;
-    const steps = ['preparing', 'onTheWay', 'delivered'];
-    const interval = setInterval(() => {
-      step++;
-      qsa('.step').forEach(el => el.classList.remove('active'));
-      qs(`[data-step="${steps[step]}"]`).classList.add('active');
-      if (step === 2) clearInterval(interval);
-    }, 3000);
-  };
+overlay.addEventListener("click", () => {
+  cartModal.classList.remove("visible");
+  overlay.classList.remove("visible");
+});
 
-  /* ---------- INIT ---------- */
-  const init = () => {
-    // Simulate loading
-    setTimeout(() => renderRestaurants(), 600);
+// ----------- Search (Debounced) -----------
+let debounceTimer;
+searchInput.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const query = searchInput.value.toLowerCase();
+    const results = restaurants.filter((r) =>
+      r.name.toLowerCase().includes(query) || r.cuisine.toLowerCase().includes(query)
+    );
+    renderRestaurants(results);
+  }, 300);
+});
 
-    // Event listeners
-    categoryFilters.addEventListener('click', e => {
-      if (!e.target.matches('.filter-btn')) return;
-      qsa('.filter-btn').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      filterByCategory(e.target.dataset.category);
-    });
+// ----------- Filter by Category -----------
+document.querySelectorAll(".category-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const category = btn.getAttribute("data-category");
+    if (category === "All") {
+      renderRestaurants(restaurants);
+    } else {
+      const filtered = restaurants.filter((r) => r.category === category);
+      renderRestaurants(filtered);
+    }
+  });
+});
 
-    searchInput.addEventListener('input', e => handleSearch(e.target.value));
-    cartBtn.addEventListener('click', toggleCart);
-    closeCart.addEventListener('click', toggleCart);
-    closeMenu.addEventListener('click', closeMenuModal);
-    checkoutBtn.addEventListener('click', openCheckout);
-    closeCheckout.addEventListener('click', closeCheckoutModal);
-    checkoutForm.addEventListener('submit', placeOrder);
-    closeStatus.addEventListener('click', () => orderStatus.setAttribute('aria-hidden', 'true'));
-
-    // Close modals on outside click
-    [menuModal, checkoutModal].forEach(modal => {
-      modal.addEventListener('click', e => {
-        if (e.target === modal) modal.setAttribute('aria-hidden', 'true');
-      });
-    });
-
-    renderCartCount();
-  };
-
-  init();
-})();
+// ----------- Init -----------
+renderRestaurants(restaurants);
+updateCart();
